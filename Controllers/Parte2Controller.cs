@@ -2,6 +2,7 @@
 using ProvaPub.Models;
 using ProvaPub.Repository;
 using ProvaPub.Services;
+using ProvaPub.Services.Interfaces;
 
 namespace ProvaPub.Controllers
 {
@@ -19,16 +20,19 @@ namespace ProvaPub.Controllers
 		/// 
 		/// </summary>
 		TestDbContext _ctx;
-		public Parte2Controller(TestDbContext ctx)
+		IProductService _productService;
+
+		public Parte2Controller(TestDbContext ctx, IProductService productService)
 		{
 			_ctx = ctx;
-		}
+			_productService = productService;
+
+        }
 	
 		[HttpGet("products")]
 		public ProductList ListProducts(int page)
 		{
-			var productService = new ProductService(_ctx);
-			return productService.ListProducts(page);
+			return _productService.ListProducts(page);
 		}
 
 		[HttpGet("customers")]
