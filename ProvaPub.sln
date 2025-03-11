@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProvaPub", "ProvaPub.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProvaPub.Tests", "..\ProvaPub.Tests\ProvaPub.Tests.csproj", "{4372A98D-B805-419E-B66E-C563232E9CF1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6AEB3528-05E0-42D8-B287-61FF94F5C82B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{3701E5CD-9C66-4D2D-BE13-2417BFF40DD4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +28,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BF0C6C17-A860-47B0-BF84-1FBB2E26742A} = {6AEB3528-05E0-42D8-B287-61FF94F5C82B}
+		{4372A98D-B805-419E-B66E-C563232E9CF1} = {3701E5CD-9C66-4D2D-BE13-2417BFF40DD4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {508154CE-59FC-48C4-A288-C3D88E9607FE}
