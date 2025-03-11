@@ -20,8 +20,15 @@ namespace ProvaPub.Services
         public async Task<int> GetRandom()
 		{
             var number =  new Random(seed).Next(100);
-            _ctx.Numbers.Add(new RandomNumber() { Number = number });
-            _ctx.SaveChanges();
+
+            RandomNumber numberIsInDatabase = _ctx.Numbers.FirstOrDefault(x => x.Number == number);
+
+            if(numberIsInDatabase is null)
+            {
+                _ctx.Numbers.Add(new RandomNumber() { Number = number });
+                _ctx.SaveChanges();
+            }
+
 			return number;
 		}
 
