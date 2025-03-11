@@ -34,7 +34,6 @@ namespace ProvaPub.Services
 
             TimeZoneInfo brazilTimeZone = TimeZoneInfo.FindSystemTimeZoneById("E. South America Standard Time");
 
-            // Converte de UTC para horário do Brasil
             DateTime brazilDate = TimeZoneInfo.ConvertTimeFromUtc(insertedEntity.OrderDate, brazilTimeZone);
 
             insertedEntity.OrderDate = brazilDate;
