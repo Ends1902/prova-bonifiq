@@ -1,44 +1,51 @@
 ﻿using ProvaPub.Models;
 using ProvaPub.Repository;
+using ProvaPub.Strategy;
+using System.Text.Json;
 
 namespace ProvaPub.Services
 {
-	public class OrderService
-	{
+    public class OrderService
+    {
         TestDbContext _ctx;
 
         public OrderService(TestDbContext ctx)
         {
             _ctx = ctx;
+            var options = new JsonSerializerOptions
+            {
+                ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles,
+                WriteIndented = true 
+            };
         }
 
         public async Task<Order> PayOrder(string paymentMethod, decimal paymentValue, int customerId)
-		{
-			if (paymentMethod == "pix")
-			{
-				//Faz pagamento...
-			}
-			else if (paymentMethod == "creditcard")
-			{
-				//Faz pagamento...
-			}
-			else if (paymentMethod == "paypal")
-			{
-				//Faz pagamento...
-			}
+        {
 
-			return await InsertOrder(new Order() //Retorna o pedido para o controller
+            new PaymentStrategy().DoPayment(paymentMethod, paymentValue);
+
+            var insertedEntity = await InsertOrder(new Order
             {
-                Value = paymentValue
+                OrderDate = DateTime.UtcNow,
+                CustomerId = customerId,
+                Customer = new Customer { Name = "Ednaldo Santos" }
             });
 
 
-		}
+            TimeZoneInfo brazilTimeZone = TimeZoneInfo.FindSystemTimeZoneById("E. South America Standard Time");
 
-		public async Task<Order> InsertOrder(Order order)
-        {
-			//Insere pedido no banco de dados
-			return (await _ctx.Orders.AddAsync(order)).Entity;
+            // Converte de UTC para horário do Brasil
+            DateTime brazilDate = TimeZoneInfo.ConvertTimeFromUtc(insertedEntity.OrderDate, brazilTimeZone);
+
+            insertedEntity.OrderDate = brazilDate;
+
+            return insertedEntity;
         }
-	}
+
+        public async Task<Order> InsertOrder(Order order)
+        {
+            //Insere pedido no banco de dados
+            return (await _ctx.Orders.AddAsync(order)).Entity;
+        }
+    }
 }
